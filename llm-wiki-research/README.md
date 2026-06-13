@@ -1,0 +1,221 @@
+# 🧠 LLM Wiki Research
+
+A personal research knowledge base on Large/Small Language Models, agentic systems, and LLM memory — built with Obsidian + Claude (via MCP).
+
+---
+
+## 📁 Folder Structure & Roles
+
+```
+llm-wiki-research/
+├── 00-MOC/            → Maps of Content (index dashboards)
+├── 01-Papers/         → Research papers — one note per paper
+├── 02-Concepts/       → Atomic concept notes — the building blocks
+├── 03-Architectures/  → Model families & specific models
+├── 04-Experiments/    → My own experiments & lab notebook
+├── 05-Glossary/       → Quick definitions (2-3 sentences)
+└── 99-Inbox/          → Raw capture, processed weekly
+```
+
+### 00-MOC — Maps of Content
+Dashboard notes that index everything via Dataview queries. Start every research session by opening `Home.md`. Auto-updates as you add notes.
+
+### 01-Papers — Research papers
+One note per arXiv paper, blog post, or technical report. Each follows `_template.md`: summary, contributions, method, benchmarks, limitations, my notes. **This is the biggest folder.**
+
+### 02-Concepts — Atomic ideas
+Reusable building blocks that papers reference: Attention, RLHF, KV Cache, CoT, etc. One concept = one note. Papers link *into* this folder via `[[wikilinks]]`. Over time this becomes a personal LLM encyclopedia.
+
+### 03-Architectures — Specific models
+One note per model family or architecture: Transformer, Mamba, Llama-3, DeepSeek-R1. Different from concepts — this is about *specific models*, parameter counts, training details, design choices.
+
+### 04-Experiments — Lab notebook
+Hands-on work: fine-tuning runs, benchmarks, prompt experiments, paper reproductions. Tracks hypothesis → setup → results → conclusion. Even *planned* experiments live here.
+
+### 05-Glossary — Quick reference
+2-3 sentence definitions only. Link here when you need a fast reminder of what "perplexity" or "logit" means without reading a full concept note.
+
+### 99-Inbox — Raw capture
+Paste links, paper titles, tweets, half-formed ideas here. Process into proper folders weekly. The `99` prefix pushes it to the bottom of the file tree.
+
+---
+
+## 🔗 How They Connect
+
+```
+99-Inbox (raw)
+    ↓ process weekly
+01-Papers ──links to──► 02-Concepts
+    │                        │
+    └──── references ─────► 03-Architectures
+                                │
+04-Experiments ─── tests ────► 03-Architectures
+                                │
+05-Glossary ◄── defines terms ─ everywhere
+```
+
+The power is in `[[wikilinks]]`. Obsidian builds a knowledge graph automatically — open **Graph View** (Cmd+G) to see your research landscape visually.
+
+---
+
+## 🤖 Working with Claude (via MCP)
+
+This vault is connected to Claude Desktop through the Obsidian Local REST API MCP server. Claude can read, create, and update notes directly. Below are battle-tested prompt patterns.
+
+### 1. Process a Paper (most common)
+
+**Just drop the PDF or paste the abstract + arXiv link.** Then say:
+
+> Add this paper to my LLM wiki. Process it into `01-Papers/` using the template, and create or update related notes in `02-Concepts/`, `03-Architectures/`, `04-Experiments/`, and `05-Glossary/` if applicable.
+
+**What Claude does:**
+- Extracts metadata (title, authors, year, arxiv link)
+- Fills the full paper template (summary, contributions, method, benchmarks, limitations)
+- Adds `[[wikilinks]]` to existing concepts
+- Creates new concept stubs if the paper introduces ideas not yet in the wiki
+- Tags everything appropriately
+
+### 2. Expand a Stub Concept
+
+When you have a partially-filled concept note:
+
+> The note `02-Concepts/Attention.md` is a stub. Expand it with: intuition, math, common variants (MHA/GQA/MLA), and link to relevant papers in `01-Papers/`.
+
+### 3. Cross-Linking Pass
+
+After adding several papers:
+
+> Scan `01-Papers/` for any plain mentions of concepts that exist in `02-Concepts/` but aren't yet wikilinked. Update the files to use `[[wikilinks]]`.
+
+### 4. Generate / Refresh a MOC
+
+> Update `00-MOC/Papers-MOC.md` to include all papers, grouped by topic tag, sorted by date_added descending.
+
+### 5. Process the Inbox
+
+> Look at everything in `99-Inbox/`. For each item, decide which folder it belongs in (Papers, Concepts, Architectures, Experiments), create the proper note using the right template, then update or delete the inbox entry.
+
+### 6. Compare Multiple Papers
+
+> Compare the methods in `01-Papers/Efficient Long CoT Reasoning in Small Language Models.md` and `01-Papers/<other paper>.md`. Create a comparison note in `04-Experiments/` analyzing differences in: pipeline, training data, evaluation, results.
+
+### 7. Plan an Experiment
+
+> Based on `01-Papers/<paper>.md`, draft an experiment plan in `04-Experiments/` to reproduce the main result on Llama-3.1-8B. Include: hypothesis, setup, method, expected results table, risks.
+
+### 8. Build a Topic Cluster
+
+When starting a new research area:
+
+> I want to study LLM memory systems. Create stub notes in `02-Concepts/` for: KV Cache, Long Context Methods, RAG, Episodic Memory, and Memory Compression. Each should follow the template with at least one paragraph in the Definition and Intuition sections.
+
+### 9. Daily Research Log
+
+> Create a daily note for today in `04-Experiments/daily/` summarizing what I read and any open questions. Link the new note from `00-MOC/Home.md`.
+
+### 10. Audit & Quality Check
+
+> List all notes in `01-Papers/` where the `status` frontmatter is still `draft`. For each, suggest what's missing.
+
+---
+
+## ✍️ Prompting Principles (for best results)
+
+### ✅ Be explicit about paths
+**Bad:** "Add this to my notes"
+**Good:** "Create `01-Papers/<title>.md` using `01-Papers/_template.md`"
+
+### ✅ Reference existing notes
+**Bad:** "Talk about attention"
+**Good:** "Expand `02-Concepts/Attention.md`, link to relevant papers in `01-Papers/`"
+
+### ✅ Specify tone & depth
+**Bad:** "Summarize this paper"
+**Good:** "Summarize in technical depth for a Lead Data Engineer with ML background; include math where it clarifies"
+
+### ✅ Ask for structured output
+**Bad:** "Compare these methods"
+**Good:** "Compare in a markdown table with columns: Method, Complexity, Strength, Weakness"
+
+### ✅ Chain multi-step requests
+**Bad:** Many small prompts
+**Good:** "1) Process this paper into `01-Papers/`, 2) extract any new concepts into `02-Concepts/`, 3) update `00-MOC/Papers-MOC.md`"
+
+### ✅ Use the templates
+Templates in each folder enforce consistent frontmatter (tags, status, dates) which makes Dataview queries in the MOCs actually work. Always reference them.
+
+---
+
+## 🏷️ Tag Conventions
+
+Keep tags consistent so Dataview queries work cleanly.
+
+| Tag | Use in |
+|-----|--------|
+| `paper` | All notes in `01-Papers/` |
+| `concept` | All notes in `02-Concepts/` |
+| `architecture` | All notes in `03-Architectures/` |
+| `experiment` | All notes in `04-Experiments/` |
+| `glossary` | All notes in `05-Glossary/` |
+| `SLM` | Small Language Model topics |
+| `agentic` | Agents, tool use, planning |
+| `memory` | LLM memory, KV cache, context |
+| `efficiency` | Inference / training efficiency |
+| `reasoning` | CoT, planning, math reasoning |
+| `alignment` | RLHF, DPO, safety |
+
+### Status values
+- `draft` — initial dump, needs work
+- `in-progress` — being actively expanded
+- `reviewed` — read and structured
+- `stable` — won't change much
+
+---
+
+## 🔍 Research Focus Areas (current)
+
+- **Small Language Models (SLMs)** — 7B-class models, distillation, on-device
+- **Agentic Systems** — tool use, planning, multi-step reasoning
+- **LLM Memory** — KV cache optimization, long context, retrieval
+- **Efficient Reasoning** — CoT pruning, test-time compute trade-offs
+- **On-device Inference** — quantization, hardware-aware deployment
+
+---
+
+## 🗓️ Weekly Workflow
+
+1. **Daily** — drop interesting links in `99-Inbox/`
+2. **Weekly** — process inbox, expand stubs, run an experiment
+3. **Monthly** — review MOCs, write a synthesis note in `04-Experiments/`, push to GitHub
+
+---
+
+## 🚀 Quick Start Commands for Claude
+
+Copy these into Claude Desktop when you need them:
+
+```
+"Process the attached paper into my LLM wiki"
+"Expand the stub at 02-Concepts/<name>.md"
+"Cross-link all papers in 01-Papers/ to concepts"
+"Update all MOCs in 00-MOC/"
+"Process my inbox"
+"Draft an experiment plan for 04-Experiments/ based on <paper>"
+"Audit 01-Papers/ — list notes with status=draft"
+```
+
+---
+
+## 📦 Stack
+
+- **Obsidian** — note editor + graph view
+- **Local REST API** plugin — exposes vault as HTTPS API
+- **Claude Desktop** — connects to vault via MCP
+- **Templater** plugin — note templates
+- **Dataview** plugin — query notes like a database
+- **Smart Connections** — semantic search across notes
+- **Obsidian Git** — auto-sync to GitHub
+
+---
+
+*Maintained by Nathan. Last updated: 2025-06-13.*

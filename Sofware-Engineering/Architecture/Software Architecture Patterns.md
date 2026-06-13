@@ -1,3 +1,8 @@
+---
+tags:
+  - solution-architecture
+  - sofware-engineering
+---
 # Software Architecture Patterns
 
 > **Source:** [Software Architecture Patterns](https://blog.bytebytego.com/p/software-architecture-patterns)
@@ -10,9 +15,9 @@ Architectural patterns offer a systematic approach to addressing recurring desig
 
 Client-server architecture is a widely used model for network communication. A **client** (user or application) sends requests to a **server**, and the server responds with the requested data or service. This can run on a single machine or across networked machines.
 
-| Role | Responsibility |
-|------|----------------|
-| **Client** | Initiates communication; sends requests specifying desired data or services |
+| Role       | Responsibility                                                                          |
+| ---------- | --------------------------------------------------------------------------------------- |
+| **Client** | Initiates communication; sends requests specifying desired data or services             |
 | **Server** | Listens for requests, processes them, and returns responses; manages resources and data |
 
 ---

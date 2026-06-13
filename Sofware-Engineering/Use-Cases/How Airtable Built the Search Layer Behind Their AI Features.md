@@ -1,14 +1,13 @@
 ---
 title: How Airtable Built the Search Layer Behind Their AI Features
 source: https://blog.bytebytego.com/p/how-airtable-built-the-search-layer
-author:
-  - "[[ByteByteGo]]"
 published: 2025-12-15
 created: 2026-05-31
 description: In this article, we will look at how Airtable’s data infrastructure team built its architecture, the challenges they faced, the tradeoffs they accepted, and why the choices they made only make sense once their data is properly understood.
 tags:
   - use-cases
   - solution-architecture
+  - sofware-engineering
 ---
 
 1. [[#The Data and the Constraints|The Data and the Constraints]]
