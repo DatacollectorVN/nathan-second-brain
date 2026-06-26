@@ -46,6 +46,17 @@ The actual answer "2" requires ~82 tokens of legitimate reasoning. The remaining
 | **Prompting tricks** | "Be concise" or token budgets | Brittle, doesn't change weights |
 | **Binary cutting + on-policy** | Smart pruning + SLM-aware validation | Proposed by [[Efficient Long CoT Reasoning in Small Language Models]] |
 
+
+*Pruning keeps the minimal correct prefix and drops the redundant reasoning:*
+
+```mermaid
+flowchart LR
+    Q["Simple question e.g. 1+1"] --> F["Bloated reasoning ~300+ tokens: self-doubt, re-checks"]
+    F --> A["Answer: 2"]
+    Q -->|"prune to minimal correct prefix"| P["~82 legit tokens"]
+    P --> A
+```
+
 ## Empirical Stats
 From the Efficient Long CoT paper:
 - ~40% of long CoT samples can be **pruned by >50%** without accuracy loss

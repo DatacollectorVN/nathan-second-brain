@@ -19,6 +19,15 @@ Instead of asking a model "what's 47 × 23?" and getting an answer, you let it "
 - The model generates a sequence of reasoning steps `[s1, s2, ..., sn]` before the final answer
 - In modern reasoning models (DeepSeek-R1, o1, QwQ), the reasoning is wrapped in `<think>...</think>` tags
 
+
+*Direct answering vs. chain-of-thought:*
+
+```mermaid
+flowchart LR
+    Q["Question"] --> D["Direct answer (often fails on hard tasks)"]
+    Q --> S1["Step 1"] --> S2["Step 2"] --> S3["Step 3"] --> A["Final answer"]
+```
+
 ## Variants & Evolution
 | Era | Variant | Key Idea |
 |-----|---------|----------|

@@ -18,7 +18,7 @@ llm-wiki-research/
 ```
 
 ### 00-MOC — Maps of Content
-Dashboard notes that index everything via Dataview queries. Start every research session by opening `Home.md`. Auto-updates as you add notes.
+Dashboard notes that index everything via Data view queries. Start every research session by opening `Home.md`. Auto-updates as you add notes.
 
 ### 01-Papers — Research papers
 One note per arXiv paper, blog post, or technical report. Each follows `_template.md`: summary, contributions, method, benchmarks, limitations, my notes. **This is the biggest folder.**
@@ -119,6 +119,41 @@ When starting a new research area:
 
 ---
 
+## 🤝 Worker / Reviewer Flow
+
+A two-role pipeline for processing papers with a built-in quality gate. Full role definitions and copy-paste prompts live in **[[AGENTS]]** — this section is just how to *use* them.
+
+- **Worker** — reads and analyses the paper, fills the note (the existing "Process a Paper" flow).
+- **Reviewer** — independently verifies the Worker's output against the source paper before it's trusted.
+
+The `status` frontmatter field is the handoff baton:
+`draft` → **`needs-review`** (Worker done) → `reviewed` (Reviewer passed) *or* `in-progress` (Reviewer kicked it back with fixes).
+
+> ⚠️ **Always run the Reviewer in a NEW chat.** A reviewer sharing the worker's context just rubber-stamps it. A fresh chat forces it to re-open the paper and re-derive every number — which is how hallucinated benchmarks get caught.
+
+### 🅰️ Use the Worker only
+When you just want the note written fast and you'll eyeball it yourself.
+
+> Act as the WORKER in `AGENTS.md`. Process the attached paper into `01-Papers/`. Set `status: needs-review` when done.
+
+Result: a fully-filled note marked `needs-review`. Nothing is auto-trusted — you can promote it to `reviewed` manually whenever you're happy.
+
+### 🅱️ Use the Reviewer only
+When a note already exists (Worker-made, or older notes you want audited) and you only want it checked.
+
+> Act as the REVIEWER in `AGENTS.md`. Review `01-Papers/<title>.md` against `<arxiv link / attached PDF>`. Give a verdict + checklist, then update `status` accordingly.
+
+Run this in a fresh chat. Good for batch-auditing: *"List all `01-Papers/` notes with `status: needs-review`, then review each."*
+
+### 🆎 Use both (full pipeline)
+The normal flow for a new paper.
+
+1. **Chat 1 — Worker:** *"Act as the WORKER in `AGENTS.md`. Process the attached paper into `01-Papers/`."* → ends at `status: needs-review`.
+2. **Chat 2 (new) — Reviewer:** *"Act as the REVIEWER in `AGENTS.md`. Review `01-Papers/<title>.md` against the paper."* → PASS sets `reviewed`; FAIL sets `in-progress` + a fix list under `## Review`.
+3. **If FAIL:** hand the fix list back to a Worker chat: *"Apply the fixes under `## Review` in `01-Papers/<title>.md`, then set `status: needs-review`."* Re-review until it passes.
+
+**Hands-off variant:** add *"if FAIL, apply the fixes yourself then re-check"* to the Reviewer prompt — one chat does the loop, but you lose the human checkpoint.
+
 ## ✍️ Prompting Principles (for best results)
 
 ### ✅ Be explicit about paths
@@ -166,11 +201,10 @@ Keep tags consistent so Dataview queries work cleanly.
 
 ### Status values
 - `draft` — initial dump, needs work
-- `in-progress` — being actively expanded
-- `reviewed` — read and structured
+- `needs-review` — Worker finished; awaiting Reviewer (see [[AGENTS]])
+- `in-progress` — being actively expanded / Reviewer sent it back with fixes
+- `reviewed` — read, structured, and verified against the source
 - `stable` — won't change much
-
----
 
 ## 🔍 Research Focus Areas (current)
 
@@ -204,7 +238,21 @@ Copy these into Claude Desktop when you need them:
 "Audit 01-Papers/ — list notes with status=draft"
 ```
 
----
+**Worker / Reviewer flow** (see [[AGENTS]]):
+
+```
+# Worker only
+"Act as the WORKER in AGENTS.md. Process the attached paper into 01-Papers/."
+
+# Reviewer only (run in a NEW chat)
+"Act as the REVIEWER in AGENTS.md. Review 01-Papers/<title>.md against <paper link>."
+
+# Find what needs reviewing
+"List all 01-Papers/ notes with status: needs-review."
+
+# Apply review fixes
+"Apply the fixes under ## Review in 01-Papers/<title>.md, then set status: needs-review."
+```
 
 ## 📦 Stack
 

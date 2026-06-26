@@ -23,12 +23,11 @@ where T is temperature, KL is divergence.
 ### Modern Reasoning Distillation
 Teacher (large reasoning model like DeepSeek-R1) generates CoT traces → student SLM fine-tunes on those traces via SFT.
 
-```
-[Teacher: DeepSeek-R1 70B] → generates long CoT for problem P
-                            ↓
-                    (Q, CoT, Answer) triplets
-                            ↓
-[Student: Llama-8B] → SFT on these triplets → learns reasoning
+```mermaid
+flowchart TB
+    T["Teacher: large reasoning model e.g. DeepSeek-R1"] -->|"generate long CoT for problem P"| D["(Q, CoT, Answer) triplets"]
+    D -->|"SFT"| St["Student SLM e.g. Llama-8B"]
+    St --> R["Learns reasoning"]
 ```
 
 ## Variants & Evolution

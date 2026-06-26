@@ -27,11 +27,12 @@ Off-policy is like learning to cook by watching Gordon Ramsay — useful but his
 ## On-Policy Validation (Efficient Long CoT paper)
 This paper applies the on-policy idea to **data curation**, not just training:
 
-```
-1. Generate candidate CoT prefix T^{1:k}
-2. Ask target SLM M: "Can you derive the answer from this prefix?"
-3. If M(Q, T^{1:k}) = correct answer → keep this prefix
-4. Otherwise → reject, search elsewhere
+```mermaid
+flowchart TD
+    A["Generate candidate CoT prefix T(1:k)"] --> B{"Target SLM M: can it derive the answer from this prefix?"}
+    B -->|"correct answer"| C["Keep this prefix"]
+    B -->|"wrong answer"| D["Reject, search elsewhere"]
+    D --> A
 ```
 
 The validator is the **target model itself**, not GPT-4 or another judge. This means:

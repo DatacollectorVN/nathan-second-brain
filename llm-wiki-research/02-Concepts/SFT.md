@@ -35,9 +35,10 @@ The model learns to maximize probability of `Y` given `Q`. Standard cross-entrop
 - Pack multiple examples to maximize GPU utilization
 
 ## SFT in Pipeline
-```
-Pre-trained LM → SFT → DPO/RLHF → Deployed Model
-   (general)    (task)   (preference)
+
+```mermaid
+flowchart LR
+    A["Pre-trained LM (general)"] --> B["SFT (task / format)"] --> C["DPO / RLHF (preference)"] --> D["Deployed model"]
 ```
 
 ## Limitations

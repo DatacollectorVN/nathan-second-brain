@@ -3,7 +3,13 @@ title: Efficient Long CoT Reasoning in Small Language Models
 authors: Zhaoyang Wang, Jinqi Jiang, Tian Qiu, Hui Liu, Xianfeng Tang, Huaxiu Yao
 year: 2025
 arxiv: https://arxiv.org/abs/2505.18440
-tags: [paper, SLM, CoT, distillation, reasoning, efficiency]
+tags:
+  - paper
+  - SLM
+  - CoT
+  - distillation
+  - reasoning
+  - efficiency
 status: reviewed
 topic:
   - Small Language Models
@@ -108,3 +114,19 @@ Large Reasoning Model (DeepSeek-R1)
 - [[DPO]]
 - [[DeepSeek-R1]]
 - [[Small Language Models]]
+
+---
+
+## Review
+**2026-06-17 — VERDICT: PASS** (verified against arXiv 2505.18440 v2)
+
+| #   | Check        | Result                                                                                                                                                                                                                                          |
+| --- | ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | Faithfulness | ✅ Every Table-1 number exact (Base/SFT_Full/SFT_Ours/SFT+DPO_Ours for both Llama-3.1-8B & Qwen2.5-7B); token-reduction %s match the paper's own subscripts; 61.83%, ~40%/>50%, O(log₂n), SFT-weight 0.3, OpenR1-Math-220k 93.7k→25k all correct |
+| 2   | Completeness | ✅ All sections filled, no leftover placeholders, frontmatter complete                                                                                                                                                                           |
+| 3   | Wikilinks    | ✅ All resolve; ⚠️ minor: `[[Overthinking in Reasoning Models]]`, `[[Llama-3.1-8B-Instruct]]`, `[[Qwen2.5-7B-Instruct]]` exist in vault and are named in prose but not linked                                                                    |
+| 4   | Conventions  | ✅ Tags valid; correct folder                                                                                                                                                                                                                    |
+| 5   | Cross-note   | ✅ Auto-indexed by Papers-MOC Dataview                                                                                                                                                                                                           |
+| 6   | Calibration  | ✅ Limitations match source; My Notes clearly separated as opinion                                                                                                                                                                               |
+
+Optional follow-up: add the three wikilinks in #3. Non-blocking.

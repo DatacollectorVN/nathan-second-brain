@@ -32,6 +32,19 @@ Where:
 ### Why It Works
 The math shows that maximizing this loss is equivalent to RLHF's objective, but without needing an explicit reward model. The model learns to **increase** the relative probability of chosen responses and **decrease** that of rejected ones.
 
+
+*RLHF's three stages collapsed into DPO's single step:*
+
+```mermaid
+flowchart TB
+    subgraph RLHF_["Classic RLHF: 3 stages"]
+        A1["SFT model"] --> A2["Train reward model"] --> A3["PPO RL optimization"] --> A4["Aligned model"]
+    end
+    subgraph DPO_["DPO: 1 supervised step"]
+        B1["Preference pairs: chosen vs rejected"] --> B2["DPO loss vs frozen ref model"] --> B3["Aligned model"]
+    end
+```
+
 ## Common Use Cases
 - **Alignment** — teach model to refuse harmful prompts (chosen=refusal, rejected=compliance)
 - **Style** — prefer concise over verbose (used in [[Efficient Long CoT Reasoning in Small Language Models]])
