@@ -38,10 +38,45 @@ The dominant sequence-transduction models in 2017 were RNN/CNN encoder-decoders,
 ## Architecture / Method
 
 ### Overall shape (encoder–decoder)
+![[transformer_archirecture.png]]
 ```
 Inputs → Embedding (+ Positional Encoding) → [Encoder layer] × N=6 → memory
 Outputs(shifted right) → Embedding (+ PosEnc) → [Decoder layer] × N=6 → Linear → Softmax → probs
 ```
+
+```mermaid
+flowchart TB
+    subgraph Encoder["Encoder × N = 6"]
+        direction TB
+        EIn["Input Embedding"] --> EPos(("Positional<br/>Encoding"))
+        EPos --> ESA["Multi-Head<br/>Self-Attention"]
+        ESA --> EAdd1["Add & LayerNorm"]
+        EPos -. residual .-> EAdd1
+        EAdd1 --> EFFN["Position-wise FFN"]
+        EFFN --> EAdd2["Add & LayerNorm"]
+        EAdd1 -. residual .-> EAdd2
+    end
+
+    subgraph Decoder["Decoder × N = 6"]
+        direction TB
+        DIn["Output Embedding<br/>(shifted right)"] --> DPos(("Positional<br/>Encoding"))
+        DPos --> DSA["Masked Multi-Head<br/>Self-Attention"]
+        DSA --> DAdd1["Add & LayerNorm"]
+        DPos -. residual .-> DAdd1
+        DAdd1 --> DCA["Encoder-Decoder<br/>Cross-Attention"]
+        DCA --> DAdd2["Add & LayerNorm"]
+        DAdd1 -. residual .-> DAdd2
+        DAdd2 --> DFFN["Position-wise FFN"]
+        DFFN --> DAdd3["Add & LayerNorm"]
+        DAdd2 -. residual .-> DAdd3
+    end
+
+    EAdd2 -->|"memory (K, V)"| DCA
+    DAdd3 --> Linear["Linear"]
+    Linear --> Softmax["Softmax"]
+    Softmax --> Out["Output<br/>Probabilities"]
+```
+
 - **Encoder layer** (2 sub-layers): multi-head self-attention → position-wise FFN. Each sub-layer wrapped in a residual connection + layer norm: `LayerNorm(x + Sublayer(x))`.
 - **Decoder layer** (3 sub-layers): *masked* multi-head self-attention → encoder-decoder (cross) attention → FFN. Masking sets illegal (future) positions to −∞ before softmax, preserving the auto-regressive property.
 - All sub-layers and embeddings output `dmodel = 512`.

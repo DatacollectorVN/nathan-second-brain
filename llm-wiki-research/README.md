@@ -14,6 +14,8 @@ llm-wiki-research/
 ├── 03-Architectures/  → Model families & specific models
 ├── 04-Experiments/    → My own experiments & lab notebook
 ├── 05-Glossary/       → Quick definitions (2-3 sentences)
+├── 06-Critical-Reviews/ → Comparative reviews, tradeoffs, and judgment notes
+├── agents/            → Role instructions for Worker / Reviewer / Critical Reviewer
 └── 99-Inbox/          → Raw capture, processed weekly
 ```
 
@@ -35,6 +37,13 @@ Hands-on work: fine-tuning runs, benchmarks, prompt experiments, paper reproduct
 ### 05-Glossary — Quick reference
 2-3 sentence definitions only. Link here when you need a fast reminder of what "perplexity" or "logit" means without reading a full concept note.
 
+### 06-Critical-Reviews — Comparative judgment layer
+Human + agent reviews of models, methods, and paper clusters. These notes are explicitly analytical: compare alternatives, surface tradeoffs, identify failure modes, and record your own engineering/research judgment. Use this folder after the source notes are already processed and, ideally, reviewed.
+
+### agents — Agent role instructions
+Reusable prompts for the three-agent workflow:
+`agents/worker.md`, `agents/reviewer.md`, and `agents/critical-reviewer.md`.
+
 ### 99-Inbox — Raw capture
 Paste links, paper titles, tweets, half-formed ideas here. Process into proper folders weekly. The `99` prefix pushes it to the bottom of the file tree.
 
@@ -52,6 +61,9 @@ Paste links, paper titles, tweets, half-formed ideas here. Process into proper f
 04-Experiments ─── tests ────► 03-Architectures
                                 │
 05-Glossary ◄── defines terms ─ everywhere
+
+Reviewed source notes ───────► 06-Critical-Reviews
+                              compares / critiques / synthesizes
 ```
 
 The power is in `[[wikilinks]]`. Obsidian builds a knowledge graph automatically — open **Graph View** (Cmd+G) to see your research landscape visually.
@@ -97,7 +109,7 @@ After adding several papers:
 
 ### 6. Compare Multiple Papers
 
-> Compare the methods in `01-Papers/Efficient Long CoT Reasoning in Small Language Models.md` and `01-Papers/<other paper>.md`. Create a comparison note in `04-Experiments/` analyzing differences in: pipeline, training data, evaluation, results.
+> Use `agents/critical-reviewer.md`. Compare the methods in `01-Papers/Efficient Long CoT Reasoning in Small Language Models.md` and `01-Papers/<other paper>.md`. Create a critical review in `06-Critical-Reviews/` analyzing differences in: thesis, method, assumptions, training data, evaluation, results, tradeoffs, and engineering takeaways.
 
 ### 7. Plan an Experiment
 
@@ -117,42 +129,62 @@ When starting a new research area:
 
 > List all notes in `01-Papers/` where the `status` frontmatter is still `draft`. For each, suggest what's missing.
 
+### 11. Critical Review
+
+After one or more source notes have passed review:
+
+> Use `agents/critical-reviewer.md`. Review `01-Papers/<paper>.md` against related notes in `02-Concepts/`, `03-Architectures/`, and `04-Experiments/`. Create a critical review in `06-Critical-Reviews/` using `06-Critical-Reviews/_template.md`.
+
 ---
 
 ## 🤝 Worker / Reviewer Flow
 
-A two-role pipeline for processing papers with a built-in quality gate. Full role definitions and copy-paste prompts live in **[[AGENTS]]** — this section is just how to *use* them.
+A two-role pipeline for processing papers with a built-in quality gate, plus a separate critical-review synthesis role. Full role definitions and copy-paste prompts live in:
+
+- `agents/worker.md`
+- `agents/reviewer.md`
+- `agents/critical-reviewer.md`
 
 - **Worker** — reads and analyses the paper, fills the note (the existing "Process a Paper" flow).
 - **Reviewer** — independently verifies the Worker's output against the source paper before it's trusted.
+- **Critical Reviewer** — runs after source notes are reviewed; compares methods/models and records opinionated insight in `06-Critical-Reviews/`.
 
 The `status` frontmatter field is the handoff baton:
 `draft` → **`needs-review`** (Worker done) → `reviewed` (Reviewer passed) *or* `in-progress` (Reviewer kicked it back with fixes).
 
 > ⚠️ **Always run the Reviewer in a NEW chat.** A reviewer sharing the worker's context just rubber-stamps it. A fresh chat forces it to re-open the paper and re-derive every number — which is how hallucinated benchmarks get caught.
 
+Critical reviews do **not** replace this quality gate. Keep paper notes faithful and evidence-checked first; then use `06-Critical-Reviews/` for synthesis, comparisons, and judgment.
+
 ### 🅰️ Use the Worker only
 When you just want the note written fast and you'll eyeball it yourself.
 
-> Act as the WORKER in `AGENTS.md`. Process the attached paper into `01-Papers/`. Set `status: needs-review` when done.
+> Use `agents/worker.md`. Process the attached paper into `01-Papers/`. Set `status: needs-review` when done.
 
 Result: a fully-filled note marked `needs-review`. Nothing is auto-trusted — you can promote it to `reviewed` manually whenever you're happy.
 
 ### 🅱️ Use the Reviewer only
 When a note already exists (Worker-made, or older notes you want audited) and you only want it checked.
 
-> Act as the REVIEWER in `AGENTS.md`. Review `01-Papers/<title>.md` against `<arxiv link / attached PDF>`. Give a verdict + checklist, then update `status` accordingly.
+> Use `agents/reviewer.md`. Review `01-Papers/<title>.md` against `<arxiv link / attached PDF>`. Give a verdict + checklist, then update `status` accordingly.
 
 Run this in a fresh chat. Good for batch-auditing: *"List all `01-Papers/` notes with `status: needs-review`, then review each."*
 
 ### 🆎 Use both (full pipeline)
 The normal flow for a new paper.
 
-1. **Chat 1 — Worker:** *"Act as the WORKER in `AGENTS.md`. Process the attached paper into `01-Papers/`."* → ends at `status: needs-review`.
-2. **Chat 2 (new) — Reviewer:** *"Act as the REVIEWER in `AGENTS.md`. Review `01-Papers/<title>.md` against the paper."* → PASS sets `reviewed`; FAIL sets `in-progress` + a fix list under `## Review`.
+1. **Chat 1 — Worker:** use `agents/worker.md` to process the attached paper into `01-Papers/` → ends at `status: needs-review`.
+2. **Chat 2 (new) — Reviewer:** use `agents/reviewer.md` to review `01-Papers/<title>.md` against the paper → PASS sets `reviewed`; FAIL sets `in-progress` + a fix list under `## Review`.
 3. **If FAIL:** hand the fix list back to a Worker chat: *"Apply the fixes under `## Review` in `01-Papers/<title>.md`, then set `status: needs-review`."* Re-review until it passes.
 
 **Hands-off variant:** add *"if FAIL, apply the fixes yourself then re-check"* to the Reviewer prompt — one chat does the loop, but you lose the human checkpoint.
+
+### 🧠 Use the Critical Reviewer
+When you want a higher-level view across reviewed notes:
+
+> Use `agents/critical-reviewer.md`. Compare `01-Papers/<paper A>.md`, `01-Papers/<paper B>.md`, and any relevant architecture/concept notes. Create `06-Critical-Reviews/<review title>.md`.
+
+Result: an opinionated review note that cites the source notes, compares tradeoffs, calls out failure modes, and records your engineering/research takeaways.
 
 ## ✍️ Prompting Principles (for best results)
 
@@ -192,6 +224,7 @@ Keep tags consistent so Dataview queries work cleanly.
 | `architecture` | All notes in `03-Architectures/` |
 | `experiment` | All notes in `04-Experiments/` |
 | `glossary` | All notes in `05-Glossary/` |
+| `critical-review` | All notes in `06-Critical-Reviews/` |
 | `SLM` | Small Language Model topics |
 | `agentic` | Agents, tool use, planning |
 | `memory` | LLM memory, KV cache, context |
@@ -201,7 +234,7 @@ Keep tags consistent so Dataview queries work cleanly.
 
 ### Status values
 - `draft` — initial dump, needs work
-- `needs-review` — Worker finished; awaiting Reviewer (see [[AGENTS]])
+- `needs-review` — Worker finished; awaiting Reviewer (see `agents/reviewer.md`)
 - `in-progress` — being actively expanded / Reviewer sent it back with fixes
 - `reviewed` — read, structured, and verified against the source
 - `stable` — won't change much
@@ -220,7 +253,7 @@ Keep tags consistent so Dataview queries work cleanly.
 
 1. **Daily** — drop interesting links in `99-Inbox/`
 2. **Weekly** — process inbox, expand stubs, run an experiment
-3. **Monthly** — review MOCs, write a synthesis note in `04-Experiments/`, push to GitHub
+3. **Monthly** — review MOCs, write a critical review in `06-Critical-Reviews/`, push to GitHub
 
 ---
 
@@ -235,17 +268,18 @@ Copy these into Claude Desktop when you need them:
 "Update all MOCs in 00-MOC/"
 "Process my inbox"
 "Draft an experiment plan for 04-Experiments/ based on <paper>"
+"Create a critical review in 06-Critical-Reviews/ comparing <paper A> and <paper B>"
 "Audit 01-Papers/ — list notes with status=draft"
 ```
 
-**Worker / Reviewer flow** (see [[AGENTS]]):
+**Worker / Reviewer flow** (see `agents/worker.md` and `agents/reviewer.md`):
 
 ```
 # Worker only
-"Act as the WORKER in AGENTS.md. Process the attached paper into 01-Papers/."
+"Use agents/worker.md. Process the attached paper into 01-Papers/."
 
 # Reviewer only (run in a NEW chat)
-"Act as the REVIEWER in AGENTS.md. Review 01-Papers/<title>.md against <paper link>."
+"Use agents/reviewer.md. Review 01-Papers/<title>.md against <paper link>."
 
 # Find what needs reviewing
 "List all 01-Papers/ notes with status: needs-review."

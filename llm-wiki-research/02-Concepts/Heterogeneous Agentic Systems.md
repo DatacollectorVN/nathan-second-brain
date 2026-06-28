@@ -6,7 +6,7 @@ related_papers:
   - "[[Small Language Models are the Future of Agentic AI]]"
 date_added: 2026-06-16
 ---
-
+                                            cc 
 ## Definition
 A heterogeneous agentic system is an [[Agentic AI|agent]] that invokes *multiple different language models* of varying sizes and specializations, choosing the cheapest capable model for each subtask rather than routing everything through one generalist LLM.
 
@@ -15,8 +15,7 @@ Because the agent's code controls every model call, it can in principle pick *an
 
 ## How It Works
 - **Default-SLM, escalate-to-LLM** routing: a router sends each call to a specialist SLM; falls back to an LLM only when needed.
-- **Role split** (Belcak et al., Figure 1-Right): one SLM for conversationality, another for controller-defined tasks, etc.
-- **"Lego-like" composition**: scale *out* by adding small experts instead of scaling *up* a monolith — cheaper, faster to debug, easier to deploy, better matched to the real heterogeneity of agent tasks.
+- **Role split** (Belcak et al., Figure 1-Right): one SLM for conversationality, another for controller-defined tasks, etc. 
 
 
 *Default-SLM, escalate-to-LLM routing:*

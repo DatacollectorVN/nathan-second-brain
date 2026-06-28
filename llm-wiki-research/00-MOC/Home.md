@@ -4,6 +4,7 @@
 - [[Papers-MOC]] — All research papers
 - [[Concepts-MOC]] — Core concepts & theory
 - [[Experiments-MOC]] — My experiments & benchmarks
+- [[Critical-Reviews-MOC]] — Comparative reviews & judgment notes
 
 ## 🔍 Research Focus Areas
 - Small Language Models (SLMs)

@@ -37,6 +37,22 @@ LLM **reasoning** (e.g. [[Chain-of-Thought]]) and **acting** (action/plan genera
 - A language action **âₜ ∈ L (a "thought")** does not affect the environment and returns no observation; it just composes/updates context (cₜ₊₁ = (cₜ, âₜ)) to support later reasoning or acting. Thought types include goal decomposition, commonsense injection, extracting info from observations, progress tracking, and exception handling (§2).
 - Setup is a **frozen PaLM-540B prompted with few-shot in-context exemplars** (human-written action/thought/observation trajectories). For reasoning-heavy tasks thoughts are **dense** (every step); for long-horizon decision tasks thoughts are **sparse** and the model decides when to emit them (§2).
 
+
+*The ReAct loop — the LLM picks a **thought** (language action, no environment effect) or a real **action** each step, both growing the context until `finish`:*
+
+```mermaid
+flowchart TD
+    C["Context c_t = (o1, a1, ..., o_t)"] --> LLM["Frozen LLM (PaLM-540B)<br/>few-shot prompted"]
+    LLM -->|"thought a-hat in L<br/>(reasoning trace)"| TH["Plan / decompose goal,<br/>inject commonsense,<br/>track progress, handle exceptions"]
+    LLM -->|"action a in A"| ACT["Domain action"]
+    LLM -->|"finish[answer]"| DONE(["Answer"])
+    TH -->|"no env feedback<br/>update context"| C
+    ACT --> ENV["External environment<br/>(Wikipedia, game, web)"]
+    ENV -->|"observation o_t+1"| C
+```
+
+Action space is **augmented to Â = A ∪ L**: ordinary actions `a ∈ A` change the environment and return an observation, while thoughts `â ∈ L` change nothing externally — they only fold reasoning back into the context to steer the next step (dense thoughts for reasoning tasks, sparse for long-horizon decision tasks).
+
 ### Knowledge-intensive tasks (HotpotQA, FEVER) — §3
 - **Question-only setup:** the model gets only the question/claim and must rely on internal knowledge or retrieval. A simple **Wikipedia API** with three actions: `search[entity]` (returns first 5 sentences of the page, else top-5 similar entities), `lookup[string]` (next sentence containing the string, Ctrl+F-like), `finish[answer]` (§3.1).
 - **Exemplars:** 6 (HotpotQA) and 3 (FEVER) manually written ReAct trajectories; the paper notes more examples did not help (§3.2).
