@@ -18,7 +18,7 @@ Differentially Private Stochastic Gradient Descent (DP-SGD) is the workhorse met
 - **Per-example gradient clipping** to bound sensitivity: $g_i \leftarrow g_i / \max(1, \lVert g_i\rVert_2 / C)$.
 - **Gaussian noise on the averaged batch gradient**: $\tilde{g} \leftarrow \frac{1}{B}\sum_{i=1}^{B} g_i + \mathcal{N}(0,\sigma^2 C^2 I)$.
 - **Poisson subsampling** of mini-batches (privacy amplification), sampling rate $q=B/n$.
-- **Tight privacy accounting** via the moments accountant / [[Renyi Differential Privacy]], not naive composition.
+- **Tight privacy accounting** via the moments accountant / [[Renyi Differential Privacy (RDP)]], not naive composition.
 
 ## Comparison to Previous
 | Feature | DP-SGD | Output / Objective Perturbation |
@@ -40,7 +40,7 @@ Differentially Private Stochastic Gradient Descent (DP-SGD) is the workhorse met
 - [[A Comprehensive Guide to Differential Privacy]]
 
 ## Related
-- [[Renyi Differential Privacy]]
+- [[Renyi Differential Privacy (RDP)]]
 - [[Gaussian Mechanism]]
 - [[Sensitivity]]
 - [[Composition]]

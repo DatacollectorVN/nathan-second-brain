@@ -20,9 +20,22 @@ If one person can swing the answer a lot, you must add a lot of noise to hide th
 ## How It Works
 > Technical detail, math if applicable.
 
-For $f:\mathcal{D}\to\mathbb{R}^d$ and all neighbor pairs $N$:
+For a query $f:\mathcal{D}\to\mathbb{R}^d$ and the set $N$ of all neighboring dataset pairs:
 $$\Delta^p_f=\max_{(D,D')\in N}\lVert f(D)-f(D')\rVert_p.$$
-A counting query has $\Delta^1_f=1$. Noise scale is proportional to $\Delta^p_f$. Unbounded sensitivity (e.g., an average with no cap) is handled by **clipping**, which trades bias for bounded sensitivity — the same clipping used per-gradient in [[DP-SGD]].
+
+**What each symbol means**
+
+- $f$ — the query being privatized: a count, mean, histogram, or an entire training procedure's gradient. Its output is a $d$-dimensional vector.
+- $N$ — every possible pair of datasets differing in one record. The max is over *all* such pairs (hence **global** sensitivity), not just the dataset at hand — the bound must hold no matter what the data turns out to be, and computing it must not itself depend on private data.
+- $\lVert\cdot\rVert_p$ — how we measure the output shift. $p=1$ (sum of absolute coordinate changes) pairs with Laplace noise; $p=2$ (Euclidean length) pairs with Gaussian noise. The norm must match the mechanism because each mechanism's DP proof bounds the likelihood ratio in terms of that specific norm.
+- $\Delta^p_f$ — the worst-case influence any single person can have on the answer.
+
+**The logic.** DP hides *one person's contribution* inside noise. The noise therefore has to be at least as large as the biggest dent one person can make: Laplace uses scale $b=\Delta^1_f/\varepsilon$, the Gaussian mechanism uses $\sigma\propto\Delta^2_f\sqrt{2\ln(1.25/\delta)}/\varepsilon$. Two consequences:
+
+- *Low-sensitivity queries are cheap.* A count changes by at most 1 when one record changes ($\Delta^1_f=1$); a mean over $n$ records moves by at most $\text{range}/n$ — so aggregates over large datasets need almost no noise.
+- *High-sensitivity queries are expensive.* A max or an unbounded sum can move arbitrarily far ⇒ infinite sensitivity ⇒ no finite noise suffices.
+
+**Clipping.** The fix for unbounded sensitivity is to *impose* a bound: cap each individual's contribution at $C$ (clip gradients, truncate values). Then $\Delta_f \le C$ by construction and noise can be calibrated to $C$. The cost is **bias** — large true contributions are distorted — giving a bias–variance trade-off in choosing $C$: too small ⇒ heavy clipping bias; too large ⇒ heavy noise. This is exactly the per-example gradient clipping step in [[DP-SGD]].
 
 ## Variants & Evolution
 > How has this concept evolved across papers/models?

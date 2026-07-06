@@ -130,7 +130,7 @@ Other reference points stated in the text (not experiments run by the authors): 
 ## Related
 - [[Differential Privacy]]
 - [[Approximate Differential Privacy]]
-- [[Renyi Differential Privacy]]
+- [[Renyi Differential Privacy (RDP)]]
 - [[Composition]]
 - [[Post-Processing Immunity]]
 - [[Sensitivity]]
@@ -146,14 +146,14 @@ Other reference points stated in the text (not experiments run by the authors): 
 
 **2026-07-06 · Reviewer agent · VERDICT: PASS** — all benchmark numbers and formulas verified against the source PDF (arXiv:2509.03294v1); status promoted `needs-review → reviewed`.
 
-| Check | Result | Evidence |
-|---|---|---|
-| 1. Faithfulness | PASS | Example 17 verified: q=0.01, σ=4, δ=10⁻⁵, T=E/q=100E; ε=1.26 vs 9.34 (E=100), ε=2.55 vs 24.22 (E=400). Advanced composition (Thm 1), group privacy (Prop 4/5: kε and (kε, ke^{kε}δ)), sensitivity (Def 6), Laplace (Def 7/Thm 2, var 2b²), DP-SGD clip+noise equations, tail bound δ=min_λ exp(α_M(λ)−λε), moment bound q²λ(λ+1)/((1−q)σ²)+O(q³/σ³), convergence O(√p/(εn)) and O(p/(ε²n²)), Bassily 2021, GDP/PLD/Asoodeh refs, Table 2 variants, ε=10 deep-learning guideline, δ≪1/n — all match. One flag below. |
-| 2. Completeness | PASS | All template sections filled; frontmatter complete; no placeholders. |
-| 3. Wikilinks | PASS | All 13 links resolve to existing notes in 02-Concepts/03-Architectures/05-Glossary; no duplicates. |
-| 4. Conventions | PASS | Tags `paper, privacy, certified, evaluation` are in README vocabulary; correct folder. Minor: `evaluation`/`certified` fit loosely (paper is DP survey, not unlearning benchmarks/certified unlearning). |
-| 5. Cross-note | PASS | All linked stubs exist; Papers-MOC.md lists this note. |
-| 6. Calibration | PASS | Limitations honest (survey-not-empirical, unlearning only implicit); My Notes clearly editorial. |
+| Check           | Result | Evidence                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| --------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1. Faithfulness | PASS   | Example 17 verified: q=0.01, σ=4, δ=10⁻⁵, T=E/q=100E; ε=1.26 vs 9.34 (E=100), ε=2.55 vs 24.22 (E=400). Advanced composition (Thm 1), group privacy (Prop 4/5: kε and (kε, ke^{kε}δ)), sensitivity (Def 6), Laplace (Def 7/Thm 2, var 2b²), DP-SGD clip+noise equations, tail bound δ=min_λ exp(α_M(λ)−λε), moment bound q²λ(λ+1)/((1−q)σ²)+O(q³/σ³), convergence O(√p/(εn)) and O(p/(ε²n²)), Bassily 2021, GDP/PLD/Asoodeh refs, Table 2 variants, ε=10 deep-learning guideline, δ≪1/n — all match. One flag below. |
+| 2. Completeness | PASS   | All template sections filled; frontmatter complete; no placeholders.                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| 3. Wikilinks    | PASS   | All 13 links resolve to existing notes in 02-Concepts/03-Architectures/05-Glossary; no duplicates.                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| 4. Conventions  | PASS   | Tags `paper, privacy, certified, evaluation` are in README vocabulary; correct folder. Minor: `evaluation`/`certified` fit loosely (paper is DP survey, not unlearning benchmarks/certified unlearning).                                                                                                                                                                                                                                                                                                            |
+| 5. Cross-note   | PASS   | All linked stubs exist; Papers-MOC.md lists this note.                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| 6. Calibration  | PASS   | Limitations honest (survey-not-empirical, unlearning only implicit); My Notes clearly editorial.                                                                                                                                                                                                                                                                                                                                                                                                                    |
 
 **Flags (non-blocking):**
 1. **Rényi divergence prefactor:** the note writes the standard Mironov (2017) form 1/(α−1); the paper's Definition 10 prints 1/(1−α) — a sign typo in the source. The note silently corrects it; noting the discrepancy here for the record.

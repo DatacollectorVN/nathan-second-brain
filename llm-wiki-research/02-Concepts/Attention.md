@@ -22,6 +22,16 @@ For each position you want to compute, attention asks "which other positions are
 - The `1/√dₖ` scaling matters: if `q` and `k` have unit-variance components, `q·k` has variance `dₖ`, so without scaling large `dₖ` pushes softmax into tiny-gradient regions.
 - Dot-product attention is preferred over additive attention in practice — same theoretical cost but implementable as a single optimized matmul.
 
+**Term-by-term:**
+- **Q (queries)** — one vector per position asking "what am I looking for?" Stacked into a matrix, one row per token.
+- **K (keys)** — one vector per position advertising "what do I contain?" A query is compared against every key.
+- **V (values)** — the actual content each position contributes if attended to. Kept separate from keys so *what you match on* and *what you retrieve* can differ.
+- **QKᵀ** — the matrix of dot products between every query and every key: entry $(i,j)$ is the raw **compatibility score** of token $i$ attending to token $j$. Higher = more relevant.
+- **÷ √dₖ (scaling)** — divides the scores down so their variance stays ~1 regardless of dimension $d_k$. Without it, large dot products saturate the softmax (near-one-hot), which kills gradients and makes training unstable.
+- **softmax(·)** — normalizes each query's row of scores into non-negative **attention weights** that sum to 1. This turns "relevance scores" into a probability distribution over positions to blend.
+- **· V (weighted sum)** — multiplies those weights by the value matrix, so each output position is a convex combination of all value vectors, weighted by relevance. This is the actual "blending" step.
+- **dₖ vs dᵥ** — keys/queries share dimension $d_k$ (they must, to take dot products); values can have their own dimension $d_v$ (it sets the output width).
+
 **Self-attention** is the case where Q, K, V all come from the same sequence (a layer attending to its own previous layer's outputs). **Cross / encoder-decoder attention** draws queries from one sequence and keys/values from another.
 
 

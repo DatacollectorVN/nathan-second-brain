@@ -20,6 +20,15 @@ $$L_{SFT} = -\mathbb{E}_{(Q, Y) \sim D} \log M(Y | Q)$$
 
 The model learns to maximize probability of `Y` given `Q`. Standard cross-entropy training.
 
+**Term-by-term:**
+- $L_{SFT}$ — the loss being minimized. Minimizing a *negative* log-likelihood is the same as *maximizing* the likelihood the model assigns to the target answers.
+- $\mathbb{E}_{(Q,Y)\sim D}$ — the **expectation** (average) over question–answer pairs drawn from the dataset $D$. In practice this is the mean over the training batch.
+- $M(Y\mid Q)$ — the probability the model $M$ assigns to producing the target output $Y$ given the input $Q$. For a sequence it factorizes autoregressively: $M(Y\mid Q)=\prod_t M(y_t \mid Q, y_{<t})$ — the product of the probabilities of each token given everything before it.
+- $\log$ — turns that product of per-token probabilities into a sum of log-probabilities (numerically stable, and it's what makes this equivalent to token-level **cross-entropy** against the ground-truth tokens).
+- The minus sign — probabilities are $\le 1$ so their logs are negative; negating makes the loss a positive quantity to drive toward zero.
+
+The key limitation is visible in the formula: every pair $(Q,Y)$ is treated as equally, unconditionally correct — there is no term expressing that one answer is *better* than another (that's what [[DPO]]/RLHF add).
+
 ## When to Use SFT
 - **Instruction tuning** — teach model to follow instructions
 - **Domain adaptation** — make model good at specific topics (medical, legal)

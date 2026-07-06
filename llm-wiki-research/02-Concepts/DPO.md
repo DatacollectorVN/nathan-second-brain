@@ -29,6 +29,16 @@ Where:
 - `β = 0.1` (typically) controls how aggressively to deviate from reference
 - `σ` is the logistic function
 
+**Term-by-term:**
+- $L_{DPO}$ — the loss minimized over a dataset of preference pairs $(Q, Y, R)$.
+- $\mathbb{E}[\cdot]$ — average over those (prompt, chosen, rejected) triples.
+- $\dfrac{M(Y\mid Q)}{M_{ref}(Y\mid Q)}$ — the **likelihood ratio** between the trained model and the frozen reference on the *chosen* response. $>1$ means the model has become *more* likely than the reference to produce $Y$. The reference in the denominator is what keeps the model from drifting arbitrarily far — it plays the role RLHF's KL penalty plays.
+- $\log\frac{M(Y|Q)}{M_{ref}(Y|Q)}$ — the log of that ratio. In DPO's derivation this quantity *is* the model's **implicit reward** for a response: $\hat r(Q,Y)=\beta\log\frac{M(Y|Q)}{M_{ref}(Y|Q)}$. This is the sense in which "your language model is secretly a reward model."
+- The subtraction (chosen term − rejected term) — the **reward margin**: how much more the model rewards the chosen response than the rejected one. Training pushes this margin to be large and positive.
+- $\beta$ — a temperature scaling the reward difference. Small $\beta$ (e.g. 0.1) = stay close to the reference, gentle updates; large $\beta$ = deviate aggressively. It's the same knob as the KL strength in RLHF.
+- $\sigma(\cdot)$ — the **logistic (sigmoid)** function, $\sigma(x)=\frac{1}{1+e^{-x}}$. It maps the reward margin to a probability in $(0,1)$: this is the **Bradley–Terry** model of "probability that the chosen response beats the rejected one." Maximizing its log is exactly maximum-likelihood on the human preference labels.
+- The minus sign — turns "maximize the log-probability that chosen ≻ rejected" into a loss to minimize.
+
 ### Why It Works
 The math shows that maximizing this loss is equivalent to RLHF's objective, but without needing an explicit reward model. The model learns to **increase** the relative probability of chosen responses and **decrease** that of rejected ones.
 

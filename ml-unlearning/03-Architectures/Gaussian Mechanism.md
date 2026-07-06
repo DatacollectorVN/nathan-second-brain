@@ -12,7 +12,7 @@ date_added: 2026-07-06
 ## Overview
 > What is this architecture and why does it matter?
 
-The Gaussian mechanism adds Gaussian noise calibrated to the $\ell_2$-sensitivity of a numeric query, providing $(\varepsilon,\delta)$-DP (approximate DP). It is the mechanism of choice in high-composition / ML settings — including [[DP-SGD]] — because it composes well under [[Renyi Differential Privacy]].
+The Gaussian mechanism adds Gaussian noise calibrated to the $\ell_2$-sensitivity of a numeric query, providing $(\varepsilon,\delta)$-DP (approximate DP). It is the mechanism of choice in high-composition / ML settings — including [[DP-SGD]] — because it composes well under [[Renyi Differential Privacy (RDP)]].
 
 ## Key Design Choices
 - Calibrates noise to $\ell_2$-sensitivity (vs. $\ell_1$ for the [[Laplace Mechanism]]).

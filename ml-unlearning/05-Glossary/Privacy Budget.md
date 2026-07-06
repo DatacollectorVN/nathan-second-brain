@@ -16,4 +16,4 @@ Managed via [[Composition]] theorems — sequential composition sums $\varepsilo
 ## See Also
 - [[Composition]]
 - [[(epsilon-delta)-DP]]
-- [[Renyi Differential Privacy]]
+- [[Renyi Differential Privacy (RDP)]]
