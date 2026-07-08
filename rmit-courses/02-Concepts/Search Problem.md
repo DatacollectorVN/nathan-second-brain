@@ -24,11 +24,22 @@ The six components:
 
 Solving reduces to [[State Space Search]] / graph reachability: is a goal node reachable from the initial node?
 
+```mermaid
+flowchart LR
+    I["Initial state"] --> A["Actions(state):<br>legal operations"]
+    A --> T["Transition model:<br>result(state, action) = new state"]
+    T --> GT{"Goal test<br>satisfied?"}
+    GT -->|No| A
+    GT -->|Yes| G["Goal state reached<br>solution = action sequence,<br>scored by path cost"]
+```
+
 ## Variants & Depth
 > Illustrated with Water Jugs, 8-Puzzle, N-Queens, and Vacuum World. Sets up uninformed and informed (heuristic) search algorithms in following weeks.
 
 ## Key Documents
 - [[AI Lecture 01 — Introduction to Artificial Intelligence]]
+
+- [[AI Lecture 02 — Solving Problems by Searching]]
 
 ## Related Concepts
 - [[State Space Search]]

@@ -8,7 +8,7 @@ SORT file.mtime DESC
 ```
 
 ## Published Reviews
-- 
+- [[Uninformed vs Informed Search — Strategy and Algorithm Comparison]] — AI Week 2; family-level and per-algorithm comparison (BFS/UCS/DFS/DLS/IDS vs Greedy/A*)
 
 ## Review Queue
 - Add reviewed documents or concepts here when they need a higher-level comparison, exam-prep synthesis, or judgment note.

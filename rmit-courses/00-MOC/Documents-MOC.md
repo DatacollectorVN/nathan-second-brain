@@ -12,6 +12,8 @@ SORT course ASC, week ASC
 ### AI
 - Week 1 — [[AI Lecture 01 — Introduction to Artificial Intelligence]] (lecture-slides, needs-review)
 
+- Week 2 — [[AI Lecture 02 — Solving Problems by Searching]] (lecture-slides, needs-review)
+
 ### Monte Carlo Simulation
 - Other (Section 1, L1.3–L1.4) — [[Introduction to Monte Carlo Simulation]] (lecture-slides, needs-review)
 - Other (Section 2, L2.1–L2.4 + Poisson chapter) — [[Statistics and Probability Foundation]] (lecture-slides, needs-review)
