@@ -11,9 +11,10 @@ The privacy budget is the parameters $\varepsilon$ (and $\delta$) that cap the t
 ## Context
 > When and how is this term used?
 
-Managed via [[Composition]] theorems — sequential composition sums $\varepsilon$ and $\delta$; advanced/RDP accounting gives tighter spend. Analogous to *deletion capacity* in certified unlearning.
+Managed via [[Composition]] theorems — sequential composition sums $\varepsilon$ and $\delta$; advanced/RDP accounting gives tighter spend. Analogous to [[Deletion Capacity]] in certified unlearning.
 
 ## See Also
 - [[Composition]]
 - [[(epsilon-delta)-DP]]
 - [[Renyi Differential Privacy (RDP)]]
+- [[Deletion Capacity]]

@@ -1,6 +1,5 @@
 ---
-title: "A Comprehensive Guide to Differential Privacy: From Theory to User
-  Expectations"
+title: "A Comprehensive Guide to Differential Privacy: From Theory to User Expectations"
 authors: Napsu Karmitsa, Antti Airola, Tapio Pahikkala, Tinja Pitkämäki
 year: 2025
 arxiv: https://arxiv.org/abs/2509.03294
@@ -24,7 +23,7 @@ related_concepts:
   - Membership Inference
 date_added: 2026-07-06
 ---
-
+	
 ## Summary
 > One paragraph: what problem, what approach, what result.
 
@@ -159,3 +158,20 @@ Other reference points stated in the text (not experiments run by the authors): 
 1. **Rényi divergence prefactor:** the note writes the standard Mironov (2017) form 1/(α−1); the paper's Definition 10 prints 1/(1−α) — a sign typo in the source. The note silently corrects it; noting the discrepancy here for the record.
 2. Paper says sources were collected from "Scopus, IEEE Explorer, and Google Scholar" (sic); the note normalizes to "IEEE Xplore" — acceptable.
 3. The literal `#params` in the Convergence paragraph registers as a stray Obsidian tag `params`; consider rewording to "number of params".
+
+---
+
+**2026-07-13 · Reviewer agent · VERDICT: PASS (reaffirm)** — re-checked against arXiv:2509.03294 (ar5iv); Example 17 numbers and core formulas still match. Full 7-item checklist:
+
+| Check | Result | Evidence |
+| ----- | ------ | -------- |
+| 1. Faithfulness | PASS | Example 17 ε pairs and setup unchanged; DP-SGD / accountant claims still source-backed. |
+| 2. Completeness | PASS | Template + frontmatter intact. |
+| 3. Math | PASS | Formulas LaTeX + explained; prior Rényi-sign flag still the only notation discrepancy (source typo). |
+| 4. Wikilinks | PASS | Related targets still resolve. **Downstream:** [[Differential Privacy]] → `[[Deletion Capacity]]` is broken (missing note) — not introduced by this paper note's Related list, but blocks a clean concept graph for DP↔unlearning. |
+| 5. Conventions | PASS | Same tag caveat as 2026-07-06. |
+| 6. Cross-note | FAIL→fixed | Papers-MOC still showed `needs-review` after the 2026-07-06 PASS; syncing MOC status to `reviewed` as part of this reaffirm. |
+| 7. Calibration | PASS | Survey limitations / My Notes still cleanly separated. |
+
+**Housekeeping done this pass:** `00-MOC/Papers-MOC.md` status string for this note → `reviewed`.
+**Still open (concept graph, not reopening this paper note):** create `02-Concepts/Deletion Capacity.md`; strip leftover `> Short, precise definition` template prompts from `05-Glossary/(epsilon-delta)-DP.md` and `05-Glossary/Privacy Budget.md`.
