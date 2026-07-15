@@ -14,6 +14,8 @@ SORT course ASC, week ASC
 
 - Week 2 — [[AI Lecture 02 — Solving Problems by Searching]] (lecture-slides, needs-review)
 
+- Week 3 — [[AI Lecture 03 — Adversarial Search]] (lecture-slides, needs-review)
+
 ### Monte Carlo Simulation
 - Other (Section 1, L1.3–L1.4) — [[Introduction to Monte Carlo Simulation]] (lecture-slides, needs-review)
 - Other (Section 2, L2.1–L2.4 + Poisson chapter) — [[Statistics and Probability Foundation]] (lecture-slides, needs-review)
